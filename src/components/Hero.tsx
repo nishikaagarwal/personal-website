@@ -58,7 +58,6 @@ export default function Hero() {
 
           {/* Name */}
           <motion.h1
-            data-glass="true"
             className="font-sans font-semibold leading-none select-none"
             style={{ fontSize: "clamp(1.9rem, 5.5vw, 4.8rem)", letterSpacing: "-0.03em", color: "#111111" }}
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
