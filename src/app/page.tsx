@@ -155,6 +155,8 @@ const thoughts = [
 
 export default function Home() {
   const [notifiedCs2, setNotifiedCs2] = useState(false);
+  const [enteringCs2, setEnteringCs2] = useState(false);
+  const [emailCs2, setEmailCs2]       = useState("");
 
   return (
     <main>
@@ -422,9 +424,35 @@ export default function Home() {
                       <p className="font-sans text-xs" style={{ color: "#666666", fontStyle: "italic" }}>
                         You&apos;re on the list.
                       </p>
+                    ) : enteringCs2 ? (
+                      <form
+                        onSubmit={e => { e.preventDefault(); if (emailCs2.trim()) { setNotifiedCs2(true); setEnteringCs2(false); } }}
+                        className="flex items-center gap-2"
+                      >
+                        <input
+                          type="email"
+                          required
+                          autoFocus
+                          placeholder="your@email.com"
+                          value={emailCs2}
+                          onChange={e => setEmailCs2(e.target.value)}
+                          className="font-sans text-xs px-3 py-2 rounded-full outline-none"
+                          style={{ border: `1px solid ${ACCENT}`, color: "#111111", width: "160px", backgroundColor: "#fff" }}
+                        />
+                        <motion.button
+                          type="submit"
+                          className="font-sans text-xs tracking-[0.2em] uppercase px-4 py-2 rounded-full"
+                          style={{ backgroundColor: ACCENT, color: "#fff" }}
+                          whileHover={{ opacity: 0.85 }}
+                          whileTap={{ scale: 0.97 }}
+                          transition={{ duration: 0.15 }}
+                        >
+                          →
+                        </motion.button>
+                      </form>
                     ) : (
                       <motion.button
-                        onClick={() => setNotifiedCs2(true)}
+                        onClick={() => setEnteringCs2(true)}
                         className="font-sans text-xs tracking-[0.2em] uppercase px-4 py-2 rounded-full inline-flex items-center gap-2"
                         style={{ backgroundColor: ACCENT, color: "#fff" }}
                         whileHover={{ opacity: 0.85 }}
