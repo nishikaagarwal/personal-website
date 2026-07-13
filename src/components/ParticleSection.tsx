@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const facts = [
   {
@@ -71,6 +72,16 @@ export default function ParticleSection() {
     <section id="about" className="section-padding">
       <div className="max-w-6xl mx-auto">
 
+        <div className="mb-10">
+          <Link
+            href="/#about"
+            className="font-sans text-xs inline-flex items-center rounded-full px-4 py-2 transition-opacity duration-200 hover:opacity-60"
+            style={{ color: "#666666", border: "0.5px solid currentColor", backgroundColor: "transparent" }}
+          >
+            ← Back
+          </Link>
+        </div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -79,7 +90,7 @@ export default function ParticleSection() {
           className="mb-14"
         >
           <p className="font-sans text-xs tracking-[0.25em] uppercase mb-3" style={{ color: "#2040C8" }}>
-            A little about me
+            About me
           </p>
           <h2 className="font-sans font-normal leading-tight" style={{ color: "#111111", fontSize: "clamp(2.2rem, 5vw, 3.5rem)", letterSpacing: "-0.02em" }}>
             Three things worth knowing
