@@ -1,18 +1,21 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+
+const ACCENT = "#2040C8";
 
 const SECTIONS = [
-  { id: "hero", label: "Hello" },
-  { id: "about", label: "About" },
+  { id: "hero",       label: "Hello"      },
   { id: "experience", label: "Experience" },
-  { id: "books", label: "Reads" },
-  { id: "advice", label: "Advice" },
-  { id: "detective", label: "Detective" },
-  { id: "goals", label: "Goals" },
+  { id: "about",      label: "About"      },
+  { id: "work",       label: "Work"       },
+  { id: "thoughts",   label: "Thoughts"   },
+  { id: "contact",    label: "Contact"    },
 ];
 
 export default function ScrollProgress() {
+  const pathname = usePathname();
   const [active, setActive] = useState("hero");
   const [progress, setProgress] = useState(0);
   const lineRef = useRef<HTMLDivElement>(null);
@@ -25,7 +28,6 @@ export default function ScrollProgress() {
 
     const observer = new IntersectionObserver(
       entries => {
-        // pick the one with highest intersection ratio
         let best = "";
         let bestRatio = 0;
         for (const e of entries) {
@@ -53,6 +55,8 @@ export default function ScrollProgress() {
     };
   }, []);
 
+  if (pathname !== "/") return null;
+
   return (
     <div
       className="fixed left-7 top-0 bottom-0 z-30 hidden lg:flex flex-col items-center justify-center"
@@ -62,10 +66,10 @@ export default function ScrollProgress() {
         {/* Background track */}
         <div
           className="absolute left-[3px] top-0 bottom-0 w-px"
-          style={{ backgroundColor: "rgba(28,23,16,0.1)" }}
+          style={{ backgroundColor: "rgba(17,17,17,0.1)" }}
         />
 
-        {SECTIONS.map(({ id, label }, i) => {
+        {SECTIONS.map(({ id, label }) => {
           const isActive = active === id;
           return (
             <a
@@ -75,22 +79,12 @@ export default function ScrollProgress() {
               style={{ height: "40px" }}
               title={label}
             >
-              {/* Dot */}
-              <motion.div
-                className="relative z-10 rounded-full"
-                animate={{
-                  width: isActive ? 7 : 4,
-                  height: isActive ? 7 : 4,
-                  backgroundColor: isActive ? "#9580CC" : "rgba(28,23,16,0.22)",
-                }}
-                transition={{ duration: 0.3 }}
-              />
               {/* Label — appears on hover */}
               <motion.span
                 initial={{ opacity: 0, x: -4 }}
                 whileHover={{ opacity: 1, x: 0 }}
-                className="absolute left-5 font-sans text-xs whitespace-nowrap pointer-events-none select-none"
-                style={{ color: isActive ? "#9580CC" : "#7C6A58" }}
+                className="absolute left-3 font-sans text-xs whitespace-nowrap pointer-events-none select-none"
+                style={{ color: isActive ? ACCENT : "#999999" }}
               >
                 {label}
               </motion.span>
@@ -98,11 +92,11 @@ export default function ScrollProgress() {
           );
         })}
 
-        {/* Progress fill — overlays the track, clipped to scroll progress */}
+        {/* Progress fill */}
         <div
           className="absolute left-[3px] top-0 w-px origin-top pointer-events-none"
           style={{
-            backgroundColor: "#9580CC",
+            backgroundColor: ACCENT,
             height: `${progress * 100}%`,
             opacity: 0.6,
           }}

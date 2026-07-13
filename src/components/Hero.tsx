@@ -1,7 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
 import { Mail, Linkedin, Github } from "lucide-react";
-import { useRef, useState } from "react";
 
 const ACCENT  = "#2040C8";
 const ACCENT2 = "#1535A0";
@@ -12,30 +11,15 @@ const socialLinks = [
   { icon: Github,   href: "https://github.com/nishikaagarwal",           label: "GitHub"   },
 ];
 
-const keywords = [
-  { label: "builder",      top: "12%",  left: "4%"   },
-  { label: "curious",      top: "8%",   left: "55%"  },
-  { label: "strategic",    top: "30%",  left: "20%"  },
-  { label: "engineer",     top: "55%",  left: "8%"   },
-  { label: "consultant",   top: "75%",  left: "40%"  },
-  { label: "storyteller",  top: "20%",  left: "70%"  },
-  { label: "INSEAD",       top: "65%",  left: "68%"  },
-  { label: "driven",       top: "42%",  left: "58%"  },
-  { label: "creator",      top: "88%",  left: "15%"  },
-  { label: "thinker",      top: "50%",  left: "82%"  },
+const carouselWords = [
+  "Strategist", "Builder", "Systems Thinker", "Growth Catalyst",
+  "Designer", "Storyteller", "Learner",
 ];
 
+// Duplicate for seamless loop
+const carouselItems = [...carouselWords, ...carouselWords];
+
 export default function Hero() {
-  const nameRef = useRef<HTMLDivElement>(null);
-  const [viewportPos, setViewportPos] = useState({ x: 0, y: 0 });
-  const [nameRect, setNameRect]       = useState<DOMRect | null>(null);
-  const [overName, setOverName]       = useState(false);
-
-  const handleNameMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    setViewportPos({ x: e.clientX, y: e.clientY });
-    if (nameRef.current) setNameRect(nameRef.current.getBoundingClientRect());
-  };
-
   return (
     <section id="hero" className="relative min-h-screen flex items-center section-padding overflow-hidden">
       <div className="max-w-3xl mx-auto w-full text-center">
@@ -62,72 +46,57 @@ export default function Hero() {
         {/* ── Inner content (between rules) ── */}
         <div className="py-10 md:py-14">
 
-          {/* Hello, I'm */}
+          {/* Business Strategy & Transformation */}
           <motion.p
-            className="font-sans text-[11px] tracking-[0.35em] uppercase mb-8"
+            className="font-sans text-[11px] tracking-[0.35em] uppercase mb-4"
             style={{ color: ACCENT }}
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            Hello, I&apos;m
+            Business Strategy &amp; Transformation
           </motion.p>
 
           {/* Name */}
-          <div
-            ref={nameRef}
-            className="relative inline-block"
-            onMouseMove={handleNameMove}
-            onMouseEnter={() => setOverName(true)}
-            onMouseLeave={() => setOverName(false)}
+          <motion.h1
+            data-glass="true"
+            className="font-sans font-semibold leading-none select-none"
+            style={{ fontSize: "clamp(1.9rem, 5.5vw, 4.8rem)", letterSpacing: "-0.03em", color: "#111111" }}
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           >
-            <motion.h1
-              data-glass="true"
-              className="font-sans font-semibold leading-none select-none"
-              style={{ fontSize: "clamp(2.8rem, 9vw, 7rem)", letterSpacing: "-0.03em", color: "#111111" }}
-              initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.45, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            >
-              Nishika Agarwal
-            </motion.h1>
+            Hi, I&apos;m Nishika Agarwal
+          </motion.h1>
 
-            {/* Keyword reveal layer */}
-            {overName && nameRect && (
-              <div
-                className="fixed inset-0 pointer-events-none"
-                style={{
-                  zIndex: 10000,
-                  maskImage: `radial-gradient(circle 34px at ${viewportPos.x}px ${viewportPos.y}px, black 55%, transparent 100%)`,
-                  WebkitMaskImage: `radial-gradient(circle 34px at ${viewportPos.x}px ${viewportPos.y}px, black 55%, transparent 100%)`,
-                }}
-              >
-                {keywords.map(({ label, top, left }) => (
-                  <span
-                    key={label}
-                    className="absolute font-sans text-[10px] tracking-[0.25em] uppercase"
-                    style={{
-                      top:  `calc(${nameRect.top}px + ${parseFloat(top) / 100} * ${nameRect.height}px)`,
-                      left: `calc(${nameRect.left}px + ${parseFloat(left) / 100} * ${nameRect.width}px)`,
-                      color: ACCENT,
-                      opacity: 0.9,
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {label}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Bio */}
-          <motion.p
-            className="font-sans text-sm leading-relaxed mt-8 mx-auto max-w-sm"
-            style={{ color: "#666666" }}
-            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.75, duration: 0.7 }}
+          {/* Carousel */}
+          <motion.div
+            className="mt-16 overflow-hidden"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
           >
-            INSEAD MIM candidate, software engineer, and consultant building things that matter.
-          </motion.p>
+            <style>{`
+              @keyframes carousel-scroll {
+                0%   { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
+              }
+              .carousel-track {
+                display: flex;
+                width: max-content;
+                animation: carousel-scroll 26s linear infinite;
+              }
+            `}</style>
+            <div className="carousel-track">
+              {carouselItems.map((word, i) => (
+                <span
+                  key={i}
+                  className="font-sans text-[13px] tracking-[0.2em] uppercase whitespace-nowrap"
+                  style={{ color: "#999999" }}
+                >
+                  {word}
+                  <span style={{ color: ACCENT, margin: "0 12px" }}>·</span>
+                </span>
+              ))}
+            </div>
+          </motion.div>
         </div>
 
         {/* ── Bottom rule ── */}
@@ -138,22 +107,36 @@ export default function Hero() {
           transition={{ delay: 0.8, duration: 0.6 }}
         />
 
-        {/* ── Button + social ── */}
+        {/* ── Buttons + social ── */}
         <motion.div
           className="mt-7 flex items-center justify-between gap-6"
           initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0, duration: 0.7 }}
         >
-          <motion.a
-            href="#case-studies"
-            className="font-sans text-xs tracking-[0.2em] uppercase px-5 py-2.5 rounded-full inline-flex items-center gap-2"
-            style={{ border: `1px solid ${ACCENT}`, color: ACCENT, backgroundColor: "transparent" }}
-            whileHover={{ backgroundColor: ACCENT, color: "#fff" }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ duration: 0.18 }}
-          >
-            See what I&apos;ve built →
-          </motion.a>
+          <div className="flex items-center gap-3">
+            <motion.a
+              href="/work"
+              className="font-sans text-xs tracking-[0.2em] uppercase px-5 py-2.5 rounded-full inline-flex items-center gap-2"
+              style={{ border: `1px solid ${ACCENT}`, color: ACCENT, backgroundColor: "transparent" }}
+              whileHover={{ backgroundColor: ACCENT, color: "#fff" }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.18 }}
+            >
+              See my work →
+            </motion.a>
+            <motion.a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-sans text-xs tracking-[0.2em] uppercase px-5 py-2.5 rounded-full inline-flex items-center gap-2"
+              style={{ border: "1px solid rgba(17,17,17,0.2)", color: "#111111", backgroundColor: "transparent" }}
+              whileHover={{ backgroundColor: "#111111", color: "#fff", borderColor: "#111111" }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.18 }}
+            >
+              Download resume
+            </motion.a>
+          </div>
 
           <div className="flex gap-3">
             {socialLinks.map(({ icon: Icon, href, label }) => (
@@ -172,8 +155,6 @@ export default function Hero() {
 
       </div>
 
-      {/* Keyword reveal — fixed overlay above cursor */}
-
       {/* Scroll arrow */}
       <motion.a
         href="#experience"
@@ -182,15 +163,16 @@ export default function Hero() {
         transition={{ delay: 1.5 }}
         aria-label="Scroll to experience"
       >
-        <motion.svg
-          width="16" height="48" viewBox="0 0 16 48" fill="none"
-          style={{ color: ACCENT }}
-          animate={{ y: [0, 6, 0], opacity: [0.4, 0.7, 0.4] }}
+        <motion.div
+          className="flex items-center justify-center rounded-full"
+          style={{ width: 36, height: 36, backgroundColor: ACCENT }}
+          animate={{ y: [0, 5, 0], opacity: [0.75, 1, 0.75] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
-          <line x1="8" y1="0" x2="8" y2="40" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          <path d="M2 34l6 8 6-8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </motion.svg>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M1 3l5 6 5-6" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </motion.div>
       </motion.a>
     </section>
   );
