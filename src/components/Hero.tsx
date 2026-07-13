@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { Mail, Linkedin, Github } from "lucide-react";
+import { Mail, Linkedin } from "lucide-react";
 
 const ACCENT  = "#2040C8";
 const ACCENT2 = "#1535A0";
@@ -8,7 +8,6 @@ const ACCENT2 = "#1535A0";
 const socialLinks = [
   { icon: Linkedin, href: "https://www.linkedin.com/in/nishika-agarwal", label: "LinkedIn" },
   { icon: Mail,     href: "mailto:nishika.agarwal01@gmail.com",          label: "Email"    },
-  { icon: Github,   href: "https://github.com/nishikaagarwal",           label: "GitHub"   },
 ];
 
 const carouselWords = [
